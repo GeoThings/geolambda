@@ -27,6 +27,5 @@ jobs:
           docker build -t geolambda .
           docker run --rm -v ~/geolambda:/home/geolambda geolambda package.sh
       - name: 'Deploy Geolambda'
-        working-directory: ~/geolambda
         run: |
-          sls deploy --stage 1-1-0
+          cd ~/geolambda && sls deploy --stage 1-1-0
