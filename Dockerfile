@@ -6,8 +6,7 @@ LABEL authors="Matthew Hanson  <matt.a.hanson@gmail.com>"
 # install system libraries
 RUN \
     yum makecache fast; \
-    yum install -y wget glib2-devel libpng-devel nasm; \
-    yum install -y bash-completion --enablerepo=epel; \
+    yum install -y wget rsync glib2-devel libpng-devel nasm; \
     yum clean all; \
     yum autoremove
 
