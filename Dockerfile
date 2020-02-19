@@ -1,4 +1,4 @@
-FROM lambci/lambda:build-provided
+FROM lambci/lambda:build-python3.8
 
 LABEL maintainer="Development Seed <info@developmentseed.org>"
 LABEL authors="Matthew Hanson  <matt.a.hanson@gmail.com>"
