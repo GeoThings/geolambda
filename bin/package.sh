@@ -20,4 +20,4 @@ rsync -ax $PREFIX/share/gdal $DEPLOY_DIR/share/
 
 # zip up deploy package
 cd $DEPLOY_DIR
-zip -ruq ../lambda-deploy.zip ./
+zip -ruqy ../lambda-deploy.zip ./
