@@ -1,0 +1,16 @@
+service: geolambda-layer
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  region: ap-southeast-1
+layers:
+  geolambda:
+    package:
+      artifact: lambda-deploy.zip
+resources:
+  Outputs:
+    GeolambdaLayerExport:
+      Value:
+        Ref: GeolambdaLambdaLayer
+      Export:
+        Name: GeolambdaLambdaLayer
