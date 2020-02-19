@@ -28,4 +28,4 @@ jobs:
           docker run --rm -v ~/geolambda:/home/geolambda geolambda package.sh
       - name: 'Deploy Geolambda'
         run: |
-          sls deploy --stage 1.1.0-geothings
+          sls deploy --stage 1-1-0
