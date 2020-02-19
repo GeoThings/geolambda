@@ -6,7 +6,7 @@ LABEL authors="Matthew Hanson  <matt.a.hanson@gmail.com>"
 # install system libraries
 RUN \
     yum makecache fast; \
-    yum install -y wget glib2-devel libpng-devel libjpeg8-devel libtiff-devel nasm; \
+    yum install -y wget glib2-devel libpng-devel nasm; \
     yum install -y bash-completion --enablerepo=epel; \
     yum clean all; \
     yum autoremove
@@ -15,6 +15,7 @@ RUN \
 ENV \
     CURL_VERSION=7.59.0 \
     GEOS_VERSION=3.7.1 \
+    LIBTIFF_VERSION=4.1.0 \
     GEOTIFF_VERSION=1.4.3 \
 	GDAL_VERSION=2.4.1 \
     HDF4_VERSION=4.2.14 \
@@ -94,6 +95,15 @@ RUN \
     make -j ${NPROC} install; \
     cd ..; rm -rf szip
 
+# jpeg_turbo
+RUN \
+    mkdir jpeg; \
+    wget -qO- https://github.com/libjpeg-turbo/libjpeg-turbo/archive/${LIBJPEG_TURBO_VERSION}.tar.gz \
+        | tar xvz -C jpeg --strip-components=1; cd jpeg; \
+    cmake -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$PREFIX .; \
+    make -j $(nproc) install; \
+    cd ..; rm -rf jpeg
+
 # libhdf4
 RUN \
     mkdir hdf4; \
@@ -154,14 +164,17 @@ RUN \
     make -j ${NPROC} install; \
     cd ../..; rm -rf openjpeg
 
-# jpeg_turbo
+# libtiff
 RUN \
-    mkdir jpeg; \
-    wget -qO- https://github.com/libjpeg-turbo/libjpeg-turbo/archive/${LIBJPEG_TURBO_VERSION}.tar.gz \
-        | tar xvz -C jpeg --strip-components=1; cd jpeg; \
-    cmake -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$PREFIX .; \
-    make -j $(nproc) install; \
-    cd ..; rm -rf jpeg
+    mkdir libtiff; \
+    wget -qO- https://download.osgeo.org/libtiff/tiff-$LIBTIFF_VERSION.tar.gz \
+        | tar xvz -C libtiff --strip-components=1; cd libtiff; \
+    ./configure --prefix=${PREFIX} \
+        --disable-dependency-tracking --disable-lzma \
+        --with-jpeg-include-dir=${PREFIX} --with-jpeg-lib-dir=${PREFIX} \
+        --without-x;\
+    make -j ${NPROC} install; \
+    cd ${BUILD}; rm -rf libtiff
 
 # geotiff
 RUN \
