@@ -19,6 +19,9 @@ mkdir -p $DEPLOY_DIR/share
 rsync -ax $PREFIX/share/gdal $DEPLOY_DIR/share/
 rsync -ax $PREFIX/share/proj $DEPLOY_DIR/share/
 
+# XXX: Copy libmagic.
+cp /usr/lib64/libmagic.so.1 $DEPLOY_DIR/lib/
+
 # zip up deploy package
 cd $DEPLOY_DIR
 zip -ruqy ../lambda-deploy.zip ./
