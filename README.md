@@ -102,7 +102,7 @@ $ aws lambda publish-layer-version \
 	--license-info "MIT" \
 	--description "Native geospatial libaries for all runtimes" \
 	--zip-file fileb://lambda-deploy.zip
-```
+``` 
 
 6. Make layer public (needs to be done each time a new version is published)
 
